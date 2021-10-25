@@ -3,12 +3,6 @@
   padding:0px;
 }
 
-#octocat {
-  display: block;
-  width:384px;
-  margin: 50px auto;
-}
-
 .center {
   display: block;
   margin-left: auto;
@@ -19,6 +13,13 @@
 p {
   display: block;
   width: 500px;
+  margin: 50px auto;
+  font: 15px Monaco,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;
+}
+
+h2 {
+  display: block;
+  width: 1000px;
   margin: 50px auto;
   font: 30px Monaco,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;
 }
