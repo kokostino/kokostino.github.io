@@ -1,6 +1,7 @@
 * {
   margin:0px;
   padding:0px;
+  font: Monaco,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;
 }
 
 .center {
@@ -10,16 +11,22 @@
   width: 50%;
 }
 
+.card-text{
+  width: 100%;
+  blocksize:100%;
+}
+
 p {
   display: block;
   width: 500px;
   margin: 50px auto;
-  font: 15px Monaco,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;
+  font: 15px;
 }
 
 h2 {
   display: block;
   width: 1000px;
   margin: 50px auto;
-  font: 30px Monaco,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;
+  font: 30px;
 }
+
