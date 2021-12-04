@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>Image classification</title>
+  <LINK href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous" />
+  <LINK rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
+  <LINK href="styles.css" rel="stylesheet" type="text/css">
+
+</head>
+  <body id="home">
+ <img src="images/widepalms.jpg" alt="wide palms"  width=100% margin=0/>	
+    <nav class="navbar navbar-expand-lg navbar-dark shadow-sm fixed-top" style="background-color: #008080;">
+      <div class="container">
+        <a class="navbar-brand" href="#">Kokostino</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="index.html#about">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="index.html#projects">Projects</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="index.html#contact">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+</br></br></br></br>
+	<h1>Automation of an Aesthetic Instagram Account</h1>
+<div class="container small_container">
+<p>
+The goal of this project is to create aestehtically looking instagram posts.
+I lack artistic talent but I compensate this by setting up a machine learning pipeline to build
+an appealing instagram account.</br>
+The are several factors...
+After successfully finding images <a href="aesthetics.html"/>similar in colour</a>, it becomes obvious that not only colour but
+also the content of an image plays a role in how aesthetical we perceive a combination of images.
+</br>
+</br></br><img src="images/pipe.png" alt="pipe"  margin=0 width=100%/></br></br>
+We will do this by splitting the process into several steps:
+<h3>1. Classify the content</h3>
+<p>The goal of the image classification is to gain information on the content of the image to control in
+which group of posts it appears. 
+For instance a picture of a tropical beach next to a snowy mountain hut seems clashing, even if the colour scheme was harmonic.
+Considering the fact that most of my pictures are travel and outdoor pics,
+the image classification model will fit on the following classes: palmtrees, snow and neither of those.
+This is a first order approximation but sufficient for now.
+The data are cleanly separable as well, palmeras en la nieve have not been in the spotlight of my camera yet.
+</p>
+        <h5>1.1 Image Data Collection</h5><p>
+		Taking my set of favourite pictures, only around 10% contain palmtrees and 5% fit the content "winter paradise".
+		To avoid imbalanced training data, I scrape and clean the top palmtree images
+		from my favourite photo sharing social media platform.
+		Finding images which fit my definition of winter paradise was a bit less trivial and required more cleaning afterwards.
+		The winter pictures I usually take are mountain or forest photos. 
+		Hence I scraped images with the hashtags snowboarding, backcountriskiing, winterwald and snowshoeing.
+		The final dataset consisted of roughly 2000 images, 25% of which contained palmtrees, 25% in the winter wonderland
+		category and the remaining 50% fell into neither class.
+</p>
+<h5>1.2 Data Pre-processing</h5><p>
+		It turned out that a non-negligible part of scraped palmtree images contained white frames. 
+		Considering that the competing category was snow-dominated, those had to be cropped off.
+	</p>
+
+<h5>1.3 Choose the best Model</h5>
+<p> 
+A set of 2000 images with quite non-uniform content is too small to reach a great accuracy on a fresh model.
+The achieved accuracy on the validation set of a model with two - three convolutional layers was around 70-75%.
+Which is not totally bad but taking a pre-trained network will do better.
+Indeed, a pre-trained (on the imagenet dataset) MobileNetV2 reached an accuracy between 88-90%. 
+Closer inspection also showed that a misclassification between palmtree and winter wonderland images basically never happened.
+</p>
+
+<h3>2. Extract the information on colours</h3>
+<p> This step is equivalent to the first part of <a href="aesthetics.html"/>this project</a>. 
+The five dominant colours per image are calculated with KMediods on CIELAB-colour space and the information is written
+to the database.
+</p>
+
+</div>
+</body>
+</html>
