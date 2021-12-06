@@ -82,11 +82,29 @@ Closer inspection also showed that a misclassification between palmtree and wint
 </p>
 
 <h3>2. Extract the information on colours</h3>
-<p> This step is equivalent to the first part of <a href="aesthetics.html"/>this project</a>. 
+<p> This step is equivalent to the first part of <a href="aesthetics.html"/>this project</a>.
+ 
 The five dominant colours per image are calculated with KMediods on CIELAB-colour space and the information is written
 to the database.
 </p>
+<h3>3. Find the perfect combination</h3>
+<h5>3.1 Total colour similarity</h5>
+<p>
+</br></br><img src="images/justcol.png" alt="d"  width=50% style="float:left"/>
+</br><b>Information used</b>: Colour</br></br>
+<b>Method</b>: KMeans clustering</br></br></br> 
+<b>Details</b>: </br>
+<ui>
+<li>Assign a score for each image pair, depending on
+how many of the main colours are closer than a certain threshold distance in colour space.</li></br>
+<li>Take the score distribution of all images and cluster them via KMeans.</li></br>
+<li>Sequences consist of images of a cluster and nearby clusters.</li>
+</ui>
+</br></br>
 
+An example result of this is shown on the left. 
+
+</p>
 </div>
 </body>
 </html>
