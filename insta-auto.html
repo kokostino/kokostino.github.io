@@ -39,15 +39,20 @@
 	<h1>Automation of an Aesthetic Instagram Account</h1>
 <div class="container small_container">
 <p>
-The goal of this project is to create aestehtically looking instagram posts.
-I lack artistic talent but I compensate this by setting up a machine learning pipeline to build
-an appealing instagram account.</br>
-The are several factors...
-After successfully finding images <a href="aesthetics.html"/>similar in colour</a>, it becomes obvious that not only colour but
-also the content of an image plays a role in how aesthetical we perceive a combination of images.
+The goal of this project is to create aesthetically looking instagram posts.
+Having hundreds or thousands of photos, this is a tedious task when done by hand.
+In this project I set up a machine learning pipeline to do the work for me.</br>
+The essential ingredients for a pleasing combination of photos are content and colour.
+We use the information on those to find sets of images which combined are candy to the eye.</br></br>
+The three major steps in the set up are:
+<ol>
+<li> Get the content of an image via multiclass image classification.</li></br>
+<li> Get the dominating colours via clustering.</li></br>
+<li> Use these inputs to generate a sequence of appealing images.</li></br>
+</ol>
 </br>
 </br></br><img src="images/pipe.png" alt="pipe"  margin=0 width=100%/></br></br>
-We will do this by splitting the process into several steps:
+
 <h3>1. Classify the content</h3>
 <p>The goal of the image classification is to gain information on the content of the image to control in
 which group of posts it appears. 
@@ -65,20 +70,28 @@ The data are cleanly separable as well, palmeras en la nieve have not been in th
 		The winter pictures I usually take are mountain or forest photos. 
 		Hence I scraped images with the hashtags snowboarding, backcountriskiing, winterwald and snowshoeing.
 		The final dataset consisted of roughly 2000 images, 25% of which contained palmtrees, 25% in the winter wonderland
-		category and the remaining 50% fell into neither class.
+		category and the remaining 50% fell into neither class.</br>
+		The distributions of scraped and self-made photos are not fully identical but
+		this is neglected in training and testing. After all, top posts with different style also influence the style of my future images.
 </p>
 <h5>1.2 Data Pre-processing</h5><p>
-		It turned out that a non-negligible part of scraped palmtree images contained white frames. 
+		TO have the algorithm focus more on the essential part, some images are cropped such that the 
+		desired object (usually the palmtree) is dominant in the image.
+		Furthermore it turned out that a non-negligible part of scraped palmtree images contained white frames. 
 		Considering that the competing category was snow-dominated, those had to be cropped off.
 	</p>
 
 <h5>1.3 Choose the best Model</h5>
 <p> 
 A set of 2000 images with quite non-uniform content is too small to reach a great accuracy on a fresh model.
-The achieved accuracy on the validation set of a model with two - three convolutional layers was around 70-75%.
+The achieved accuracy on the validation set of a model with three convolutional layers was around 70-75%.
 Which is not totally bad but taking a pre-trained network will do better.
-Indeed, a pre-trained (on the imagenet dataset) MobileNetV2 reached an accuracy between 88-90%. 
-Closer inspection also showed that a misclassification between palmtree and winter wonderland images basically never happened.
+Indeed, a pre-trained (on the imagenet dataset) MobileNetV2 reached an accuracy of around 90%. 
+Misclassification between palmtree and winter wonderland images should be suppressed since its content clashes in general.
+Closer inspection showed that a misclassification between those two classes basically never happened.
+Misclassified images were mostly the ones were the object was only a minor part of the image.
+For our purposes, this is fine.
+The prediction of the neural network is written to the database.
 </p>
 
 <h3>2. Extract the information on colours</h3>
@@ -88,10 +101,11 @@ The five dominant colours per image are calculated with KMediods on CIELAB-colou
 to the database.
 </p>
 <h3>3. Find the perfect combination</h3>
-<h5>3.1 Total colour similarity</h5>
+The final step retrieves the content and colour information of the images from the database and uses other algorithms 
+to find appropriate sequences.
 <p>
 </br></br><img src="images/justcol.PNG" alt="d"  width=50% style="float:left"/>
-</br><b>Information used</b>: Colour</br></br>
+</br></br><b>Information used</b>: Colour</br></br>
 <b>Method</b>: KMeans clustering</br></br></br> 
 <b>Details</b>: </br>
 <ui>
@@ -105,6 +119,22 @@ how many of the main colours are closer than a certain threshold distance in col
 An example result of this is shown on the left. 
 
 </p>
+</br></br>
+<p>
+<img src="images/seq2.PNG" alt="d"  width=50% style="float:right"/>
+</br></br><b>Information used</b>: Content of class "snow" and colour</br></br>
+<b>Method</b>: Filter by class, KMeans clustering</br></br></br> 
+<b>Details</b>: </br>
+<ui>
+<li>Assign a score for each image pair.
+High points for almost identical colours, medium points for similar colours and none if their distance in colour space is too large.
+</li></br>
+<li>Take the score distribution of all images and cluster them via KMeans.</li></br>
+<li>Sequences consist of images of a cluster and nearby clusters.</li>
+</ui></br></br>
+An example result of this is shown on the right.
+</p>
+
 </div>
 </body>
 </html>

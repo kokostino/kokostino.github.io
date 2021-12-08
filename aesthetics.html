@@ -41,7 +41,8 @@
 <div class="container small_container" >
 <p>
 Imagine you want to print a photo book consisting of your 1000 favourite pictures with the goal to present it in an aesthetically pleasing way.
-To do this - as we learned from some Instagram accounts - is by grouping pictures with similar colours.
+One approach to do this is by grouping pictures with similar colours.
+Having a three dimensional colour space, we can find regions of similiarity.
 </br>
 We will do this by splitting the process into two steps:
 <ol >
@@ -58,19 +59,10 @@ not being at the geometric mean of the cluster but instead being the most centra
 Why do we not just use K-Means, which is the more common and performant algorithm?
 The answer has to do with how humans perceive similar colours vs how common colour spaces calculate similar colours.
 The most common colour spaces, e.g. RGB or BGR, are three-dimensional Euclidean spaces.
-K-Means for Euclidean spaces (or actually Euclidean metrics) works perfectly fine. The following cluster which was computed uses K-Means illustrates the weakness of KMeans and RGB-space:
-
-<img src="images/cluster1.PNG"  width=50% margin-right=30 style="float:left"></br></br>
-While the first two images are not completely far off, the last image is not matched well.
-When we do the same computation with K-Medoids (top) we see that the dominant colours are extracted more realistically compared to K-Means (bottom).
-</br></br></br>
-<img src="images/MedvsMean.PNG" width=35%/>
-</br></br></br>
-One of the improvements of CIELAB and its metric compared to RGB is an improved illustration of lighting.
-Taking into account that we want colour similarity as perceived by the human eye, 
-we have to step into another colour space - CIELAB. 
-
-The three coordinates in CIELAB are "L", "a" and "b". While a and b regulate the type of colour, L is the lighting.
+K-Means for Euclidean spaces (or actually Euclidean metrics) works perfectly fine. 
+It turns out though, the standard Euclidean colour space do not match human perception of colour distances.
+For this we have to switch to CIELAB space, a three dimensional space with colour coordinates a and b and lighting coordinate L.
+One of the improvements of CIELAB and its non-Euclidian metric compared to RGB is an improved illustration of lighting.
 It took decades to come up with a metric which is uniform, i.e. distances in that space are uniform compared to human perception of colour distance.
 The first version "CIE76" from 1976 was an Euclidean metric but lacked uniformity. 
 The metric "CIEDE 2000" improved a lot in regards of perceptual uniformity. It is non-Euclidean
@@ -79,6 +71,17 @@ and computations are slowed down quite a bit. The following formula shows the me
 <img src="images/ciede.PNG"  width=35% class="center"/></br></br>
 with &#916;L' corresponding to the lighting L and &#916;C' and &#916;H' depending non-trivially on the coordinates a and b.
 The other factors are constants.
+Distances in this metric are computationally expensive. Furthermore KMeans requires the computation of the geometric mean, 
+hence we have to switch to another clustering algorithm: KMedoids.
+The following cluster on the left which was computed uses K-Means illustrates the weakness of KMeans and RGB-space:</br></br>
+
+<img src="images/cluster1.PNG"  width=50% margin-right=30 style="float:left"></br></br>
+While the first two images are not completely far off, the last image is not matched well.
+When we do the same computation with K-Medoids (top) in non-Euclidean CIELAB space we see that the dominant colours are extracted more realistically compared to K-Means (bottom).
+</br></br></br>
+<img src="images/MedvsMean.PNG" width=35%/>
+</br></br></br>
+
 
 </p>
 
