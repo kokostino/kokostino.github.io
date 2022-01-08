@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>Colour Clustering</title>
+  <LINK href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous" />
+  <LINK rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
+  <LINK href="styles.css" rel="stylesheet" type="text/css">
+
+</head>
+  <body id="home">
+<img src="images/wideaesthetics.jpg" alt="wideaesthetics"  width=100% margin=0/>
+ 	
+    <nav class="navbar navbar-expand-lg navbar-dark bg-secondary shadow-sm fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="#">Kokostino</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="index.html#about">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="index.html#projects">Projects</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="index.html#contact">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+	<h2>Extracting colour and content information</h2>
+<div class="container small_container" >
+<p>
+The goal of this project is to automatically create aesthetically looking sequences or groups of images.
+Having hundreds or thousands of photos, this is a tedious task when done by hand.
+In this project I set up a machine learning pipeline to do the work for me.
+Two of the essential ingredients for a pleasing combination of photos are content and colour.
+We use the information on those to find sets of images which combined are candy to the eye.</br></br>
+The three major steps in the set up are:
+<ol>
+<li> Get the content of an image via multiclass image classification.</li></br>
+<li> Get the dominating colours via clustering.</li></br>
+<li> Use these inputs to generate an appealing sequence of images.</li></br>
+</ol>
+<img src="images/pipe.png" alt="pipe"  margin=0 width=100%/></br></br>
+Here we will focus on the first two steps.
+Step 3 is discussed <a href="recommender.html"> here</a>.</br></br>
+<b>Remark:</b> In addition to colour and content, also complexity and attention are important factors for aesthetics. The influence of those will be investigated in an upcoming project.
+
+</p>
+
+
+<h3>1. Extract the dominant colours with K-Medoids</h3>
+<p>
+The relevant information we want to extract here are the k dominant colours.
+This is done by clustering the pixels into k clusters as shown below for k=5.</br></br>
+<img src="images/KMe.png" alt="KMedoids"  width=50% margin=0 class="center"/></br></br>
+
+K-Medoids is a clustering algorithm similar to K-Means, the difference being the cluster centers (centroids) 
+not being at the geometric mean of the cluster but instead being the most central cluster data point itsself.
+Why do we not just use K-Means, which is the more common and performant algorithm?
+The answer has to do with how humans perceive similar colours vs how common colour spaces calculate similar colours.
+The most common colour spaces, e.g. RGB or BGR, are three-dimensional Euclidean spaces.
+K-Means for Euclidean spaces (or actually Euclidean metrics) works perfectly fine. 
+It turns out though, the standard Euclidean colour space do not match human perception of colour distances.
+For this we have to switch to CIELAB space, a three dimensional space with colour coordinates a and b and lighting coordinate L.
+One of the improvements of CIELAB and its non-Euclidian metric compared to RGB is an improved illustration of lighting.
+It took decades to come up with a metric which is uniform, i.e. distances in that space are uniform compared to human perception of colour distance.
+The first version "CIE76" from 1976 was an Euclidean metric but lacked uniformity. 
+The metric "CIEDE 2000" improved a lot in regards of perceptual uniformity. It is non-Euclidean
+and computations are slowed down quite a bit. The following formula shows the metric:</br></br>
+
+<img src="images/ciede.PNG"  width=35% class="center"/></br></br>
+with &#916;L' corresponding to the lighting L and &#916;C' and &#916;H' depending non-trivially on the coordinates a and b.
+The other factors are constants.
+Distances in this metric are computationally expensive. Furthermore KMeans requires the computation of the geometric mean, 
+hence we have to switch to another clustering algorithm: KMedoids.
+The following cluster on the left which was computed uses K-Means illustrates the weakness of KMeans and RGB-space:</br></br>
+
+<img src="images/cluster1.PNG"  width=50% margin-right=30 style="float:left"></br></br>
+While the first two images are not completely far off, the last image is not matched well.
+When we do the same computation with K-Medoids (top) in non-Euclidean CIELAB space we see that the dominant colours are extracted more realistically compared to K-Means (bottom).
+</br></br></br>
+<img src="images/MedvsMean.PNG" width=35%/>
+</br></br></br>
+</p>
+
+</br></br></br></br>
+<h3>2. Classify the content</h3>
+<p>The goal of the image classification is to gain information on the content of the image to control in
+which group of posts it appears. 
+For instance a picture of a tropical beach next to a snowy mountain hut seems clashing, even if the colour scheme was harmonic.
+Considering the fact that most of my pictures are travel and outdoor pics,
+the image classification model will fit on the following classes: palmtrees, snow and neither of those.
+This is a first order approximation but sufficient for now.
+The data are cleanly separable as well, palmeras en la nieve have not been in the spotlight of my camera yet.
+</p>
+        <h5>2.1 Image Data Collection</h5><p>
+		Taking my set of favourite pictures, only around 10% contain palmtrees and 5% fit the content "winter paradise".
+		To avoid imbalanced training data, I scrape and clean the top palmtree images
+		from my favourite photo sharing social media platform.
+		Finding images which fit my definition of winter paradise was a bit less trivial and required more cleaning afterwards.
+		The winter pictures I usually take are mountain or forest photos. 
+		Hence I scraped images with the hashtags snowboarding, backcountriskiing, winterwald and snowshoeing.
+		The final dataset consisted of roughly 2000 images, 25% of which contained palmtrees, 25% in the winter wonderland
+		category and the remaining 50% fell into neither class.</br>
+		The distributions of scraped and self-made photos are not fully identical but
+		this is neglected in training and testing. After all, top posts with different style also influence the style of my future images.
+</p>
+<h5>2.2 Data Pre-processing</h5><p>
+		To have the algorithm focus more on the essential part, some images are cropped such that the 
+		desired object (usually the palmtree) is dominant in the image.
+		Furthermore it turned out that a non-negligible part of scraped palmtree images contained white frames. 
+		Considering that the competing category was snow-dominated, those had to be cropped off.
+	</p>
+
+<h5>2.3 Choose the best Model</h5>
+<p> 
+A set of 2000 images with quite non-uniform content is too small to reach a great accuracy on a fresh model.
+The achieved accuracy on the validation set of a model with three convolutional layers was around 70-75%.
+Which is not totally bad but taking a pre-trained network will do better.
+Indeed, a pre-trained (on the imagenet dataset) MobileNetV2 reached an accuracy of around 90%. 
+Misclassification between palmtree and winter wonderland images should be suppressed since its content clashes in general.
+Closer inspection showed that a misclassification between those two classes basically never happened.
+Misclassified images were mostly the ones were the object was only a minor part of the image.
+For our purposes, this is fine.
+The prediction of the neural network is written to the database.
+</p>
+
+<h3>Database</h3>
+<p>The information in the database after those two procedures is stored in a table with the columns <b>image_name</b>, <b>colour_info</b> and <b>content</b>.
+The colour information is stored in the form [30,40,50]...[11,0,60] and the column content has the value 'palm', 'snow' or 'rest'.
+With this compressed information on an image, I will find clusters as well as sequences of images which fit together aesthetically in the <a href="recommender.html"> second part</a> of this project.</br></br></br></br></br></br></br></br></br></br></br></br>
+</p>
+</div>
+</body>
+</html>
