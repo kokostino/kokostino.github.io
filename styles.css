@@ -12,6 +12,13 @@
   width: 50%;
 }
 
+.center2 {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 85%;
+}
+
 .card{
   margin-left: 20px;
   margin-right: 20px;
@@ -29,6 +36,23 @@ p {
   font: 80px;
   text-align: justify;
 }
+p2 {
+  display: block;
+  width: 77%;
+  margin: 20px auto;
+  font: 80px;
+  text-align: justify;
+}
+
+hr {
+  width: 100%;
+  height: 18px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color:#666;
+  border: 0 none;
+  margin-top: 20px;
+  margin-bottom:20px;}
 
 h2 {
   display: block;
