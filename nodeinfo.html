@@ -52,8 +52,7 @@ The three major steps in the set up are:
 <li> Use these inputs to generate an appealing sequence of images.</li></br>
 </ol>
 <img src="images/pipe.png" alt="pipe"  margin=0 width=100%/></br></br>
-Here we will focus on the first two steps.
-Step 3 is discussed <a href="recommender.html"> here</a>.</br></br>
+
 <b>Remark:</b> In addition to colour and content, also complexity and attention are important factors for aesthetics. The influence of those will be investigated in an upcoming project.
 
 </p>
@@ -136,11 +135,67 @@ For our purposes, this is fine.
 The prediction of the neural network is written to the database.
 </p>
 
-<h3>Database</h3>
-<p>The information in the database after those two procedures is stored in a table with the columns <b>image_name</b>, <b>colour_info</b> and <b>content</b>.
-The colour information is stored in the form [30,40,50]...[11,0,60] and the column content has the value 'palm', 'snow' or 'rest'.
-With this compressed information on an image, I will find clusters as well as sequences of images which fit together aesthetically in the <a href="recommender.html"> second part</a> of this project.</br></br></br></br></br></br></br></br></br></br></br></br>
+</br></br><h3>3. Determine Aesthetics</h3>
+   <p>Having the information on dominant colours and content category, we can now use these to automatically choose aesthetic image combinations.
+An aesthetic is dominated by colour likeness. 
+To quantify colour similarity, two images get a score relative to eachother.
+This score is determined by the similarity threshold we choose. It corresponds to a certain distance in CIEDE2000-space.
+To gauge the significance of a certain threshold, we note that the human eye's sensitivity is around 2-3. Colours closer than this can't be separated by perception.
+For instance we can give a point for each colour closer than a similarity threshold 5 and another point if the colours are even closer than similarity threshold/2.</br></br>
+Images can fit together colourwise but if their content clashes according to human perception,
+it'll feel like something is off.
+Hence we use the information on content to filter opposite content (for instance never allow palms and snow together).</p> 
+
+ <h5>3.1 Nearest Neighbours</h5>
+ <p>To get the aesthetic companion of an image, we just need to find the images with the highest score in regards to this image. </p> 
+
+<h5>3.2 Cluster similar colours with K-Means</h5>
+<p>
+  Having a score for aesthetic, we can use this as input for the K-Means clustering algorithm and group images accordingly.
+  Clustering is ideal for getting aesthetic pages in a photobook, the number of clusters could correspond to the number of pages.
+We can get a sequence of images by continuing each cluster with the next nearest cluster. 
+The image below shows five random clusters with a similarity threshold of 5 while ignoring content.
+
 </p>
+<img src="images/clusters1.jpg"  width=100% /></br></br>
+
+
+<h3>Results</h3></br>
+
+Some of the results are also shared on this <a href="https://www.instagram.com/gold.nuss/"> Instagram</a> profile while more details can be found on <a href="https://github.com/kokostino/Aesthetics-Automation"> Github</a>.
+<hr>
+</br></br><img src="images/seq1.jpg" alt="d"   class='center'/>
+<p2>
+</br></br><b>Information used</b>: Colour</br></br>
+<b>Method</b>: KMeans clustering</br></br></br> 
+<b>Details</b>: </br></br>
+<ui>
+<li>Assign a score for each image pair, depending on
+how many of the main colours are closer than a certain threshold distance in colour space.</li></br>
+<li>Take the score distribution of all images and cluster them via KMeans.</li></br>
+<li>Sequences consist of images of a cluster and nearby clusters.</li>
+</ui>
+
+</p2>
+
+
+</br></br><hr></br></br>
+<img src="images/seq2.PNG" alt="d"  width=30% style="float:right"/>
+<p2>
+
+</br></br><b>Information used</b>: Content of class "snow" and colour</br></br>
+<b>Method</b>: Filter by class, KMeans clustering</br></br></br> 
+<b>Details</b>: </br></br>
+<ui>
+<li>Assign a score for each image pair.
+High points for almost identical colours, medium points for similar colours and none if their distance in colour space is too large.
+</li></br>
+<li>Take the score distribution of all images and cluster them via KMeans.</li></br>
+<li>Sequences consist of images of a cluster and nearby clusters.</li>
+</ui></br></br>
+An example result of this is shown on the right.
+</p2>
+<hr></br></br>
 </div>
 </body>
 </html>
