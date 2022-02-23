@@ -37,7 +37,7 @@
       </div>
     </nav>
 
-	<h2>Extracting colour and content information</h2>
+	<h2>Automatically find an Aesthetic</h2>
 <div class="container small_container" >
 <p>
 The goal of this project is to automatically create aesthetically looking sequences or groups of images.
@@ -165,36 +165,11 @@ The image below shows five random clusters with a similarity threshold of 5 whil
 Some of the results are also shared on this <a href="https://www.instagram.com/gold.nuss/"> Instagram</a> profile while more details can be found on <a href="https://github.com/kokostino/Aesthetics-Automation"> Github</a>.
 <hr>
 </br></br><img src="images/seq1.jpg" alt="d"   class='center'/>
-<p2>
-</br></br><b>Information used</b>: Colour</br></br>
-<b>Method</b>: KMeans clustering</br></br></br> 
-<b>Details</b>: </br></br>
-<ui>
-<li>Assign a score for each image pair, depending on
-how many of the main colours are closer than a certain threshold distance in colour space.</li></br>
-<li>Take the score distribution of all images and cluster them via KMeans.</li></br>
-<li>Sequences consist of images of a cluster and nearby clusters.</li>
-</ui>
-
-</p2>
 
 
 </br></br><hr></br></br>
 <img src="images/seq2.PNG" alt="d"  width=30% style="float:right"/>
-<p2>
 
-</br></br><b>Information used</b>: Content of class "snow" and colour</br></br>
-<b>Method</b>: Filter by class, KMeans clustering</br></br></br> 
-<b>Details</b>: </br></br>
-<ui>
-<li>Assign a score for each image pair.
-High points for almost identical colours, medium points for similar colours and none if their distance in colour space is too large.
-</li></br>
-<li>Take the score distribution of all images and cluster them via KMeans.</li></br>
-<li>Sequences consist of images of a cluster and nearby clusters.</li>
-</ui></br></br>
-An example result of this is shown on the right.
-</p2>
 <hr></br></br>
 </div>
 </body>
