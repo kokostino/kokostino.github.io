@@ -1,73 +1,115 @@
 <!DOCTYPE html>
 
 <html>
+
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-  <title>NST and GANs</title>
-  <LINK href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous" />
-  <LINK rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
-  <LINK href="styles.css" rel="stylesheet" type="text/css">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>NST and GANs</title>
+    <LINK href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous" />
+    <LINK rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
+    <LINK href="styles.css" rel="stylesheet" type="text/css">
 
 </head>
-  <body id="home">
 
- 	
+<body id="home">
+
+
     <nav class="navbar navbar-expand-lg navbar-dark bg-secondary shadow-sm fixed-top">
-      <div class="container">
-        <a class="navbar-brand" href="#">Kokostino</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <div class="container">
+            <a class="navbar-brand" href="#">Kokostino</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="index.html">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="index.html#about">About</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="index.html#projects">Projects</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="index.html#contact">Contact</a>
-            </li>
-          </ul>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html#about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html#projects">Projects</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
         </div>
-      </div>
     </nav>
+    </br>
+    </br>
+    </br>
+    <h2>Recreating Westermosque - Website in progress</h2>
 
-	<h2>Recreating Westermosque - Website in progress</h2>
+    <div class="container small_container">
+        <h3>Motivation: Find architectures with mixed styles</h3>
+        <p>
+            Westermosque is a building in Amsterdam that incorporates an architecture similar to mosques in Sultanahmet with the typical aesthetic of Amsterdam. Inspired by this perfect example of style-mix, deep learning techniques are applied to generate images
+            of such style-mixed buildings. First, neural style transfer is feeded with mosque-content and Amsterdam-style. In the second part, a generative adversarial network is trained with scraped building data of houses, churches, mosques and castles.
+            The idea is to find style-mixes in the latent space between projected images of the desired building styles.
+            </br>
+            </br>
 
-  <div class="container small_container" >
-    <h3>Motivation: Find architectures with mixed styles</h3>
-    <p>
-      Westermosque is a building in Amsterdam that incorporates an architecture similar to mosques in Sultanahmet with the typical aesthetic of Amsterdam.
-      Inspired by this perfect example of style-mix, deep learning techniques are applied to generate images of such style-mixed buildings.
-      First, neural style transfer is feeded with mosque-content and Amsterdam-style. 
-      In the second part, a generative adversarial network is trained with scraped building data of houses, churches, mosques and castles.
-      The idea is to find style-mixes in the latent space between projected images of the desired building styles.
-    </br></br>
-    <img src="images/ideal.png" alt="pipe"  margin=0 class='center2'/></br></br>
-    </p>
-  </div>
-<div class="container small_container" >
-  <h3>Neural Style Transfer</h3>
-  <p>
-  Some result of neural style transfer. The content is a picture of the blue mosque in Istanbul, as style several different images of Amsterdam's walls were used.
-  To get prettier results, a mask generated by segmentation of the content image is applied to the result.</br></br>
+            <img src="images/ideal.png" alt="ideal" class='center2' /></br>
+            </br>
+        </p>
+    </div>
+    <div class="container small_container">
+        <h3>Neural Style Transfer</h3>
+        <p>
+            Some result of neural style transfer are shown below. The content is a picture of the blue mosque in Istanbul, as style several different images of Amsterdam's walls were used. To get prettier results, a mask generated by segmentation of the content image
+            is applied to the result. A pretrained (on Imagenet) VGG16 network was used.</br>
+            </br>
 
-<img src="images/NST.png" alt="pipe"  margin=0 width=100%/></br></br>
-</p>
-<h3>StyleGAN2-ADA</h3>
-<p>
-  StyleGAN2 is trained on more than 2000 photos of buildings scraped from flickr.</br>
-  Some examples of generated images:</br></br>
-<img src="images/gan18.png" alt="pipe"  margin=0 width=100%/></br></br>
+            <img src="images/NST.png" alt="pipe" margin=0 width=100%/></br>
+            </br>
+        </p>
+        <h3>Generative Adversarial Networks (GANs)</h3>
+        <p>
+            Generative Adversarial Networks learn to generate images based on training images and can mimick the style and distribution of the training set pretty well. The basic idea is to have a network which generates images, the <b>Generator</b>,
+            and evaluate its result with a second network, the <b>Discriminator</b>. Hereby the discriminator receives inout from the generator as well as real images and learns to distinguish them. The goal of the generator is to produce more and more
+            realistic images to fool the discriminator.
+            </br>
+            <img src="images/GANst.png" alt="gan" margin=0 class='center' /></br>
+            </br>
+        </p>
+        <h4>StyleGAN2 with adaptive discriminator augmentation</h4>
 
-<img src="images/mixgan.png" alt="pipe"  margin=0  class='center2'/></br></br>
-</p>
+        <p>
+            StyleGAN is a network architecture leading to higher resolution and more diverse output while also increasing control over generated images. One of the main incredients to achieve the latter is instead of just feeding random noise into the generator network,
+            an intermediate vector is produced from several fully connected layers. This architecture improves the disentanglement of input and output features. The ideal would be to fully control e.g. building shape or wall colour by tuning this vector.</br>
+            The image below shows how StyleGAN's input goes through mapping layers before getting fed into the generator. The generator is then classfied by the discriminator together with real images.
+            </br>
+            </br>
+            <img src="images/stylegan.png" alt="stylegan" margin=0 class='center2' /></br>
+            </br>
+            </br>
+            In the orginal StyleGAN progressive growing (a slow increase of image size optimised by convolutions) led to more success in high resolution output. StyleGAN2 manages to replicate the same effects by adding skip and residual connections to the generator
+            and discriminator respectively. </br>
+            The other important ingredient of StyleGAN, Adaptive Instance Normalisation, is modified in StyleGAN2 as well. Instance normalisation (e.g. of the B-channel of one image) can lead to droplet artefact. Hereby a feature map with a small spike-type distribution
+            influences the output tremendously after normalisation. Demodulation solves that problem. The normalisation is implemented into the convolutional weights.
+            </br>
+            </br>
+            <img src="images/demo.png" alt="demodulation" margin=0 class='center' /></br>
 
-</div>
+            </br>
+            </br>
+            </br> StyleGAN2 is trained on more than 2000 photos of buildings scraped from flickr. The Fréchet inception distance metric after roughly two weeks of training on one GPU was around 16.</br>
+            Some examples of generated images:</br>
+            </br>
+            <img src="images/gan18.png" alt="pipe" margin=0 width=100%/></br>
+            </br>
+            Some inspirations of generated mosque images which have some Amsterdam style are shown below.</br>
+            </br>
+            <img src="images/mixgan.png" alt="pipe" margin=0 class='center' /></br>
+            </br>
+
+        </p>
+        <h4>Projections</h4>
+        <p></p>
+    </div>
 </body>
+
 </html>
