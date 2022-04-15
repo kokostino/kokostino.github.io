@@ -68,47 +68,30 @@
         </p>
         <h3>Generative Adversarial Networks (GANs)</h3>
         <p>
-            Generative Adversarial Networks learn to generate images based on training images and can mimick the style and distribution of the training set pretty well. The basic idea is to have a network which generates images, the <b>Generator</b>,
-            and evaluate its result with a second network, the <b>Discriminator</b>. Hereby the discriminator receives inout from the generator as well as real images and learns to distinguish them. The goal of the generator is to produce more and more
-            realistic images to fool the discriminator.
+
+
+            <h4>StyleGAN2-ada</h4>
             </br>
-            <img src="images/GANst.png" alt="gan" margin=0 class='center' /></br>
+            <img src="images/gridseed.png" alt="stylegan" margin=0 class='center2' /></br>
+
             </br>
+            <img src="images/grid.png" alt="demodulation" margin=0 class='center' /></br>
         </p>
-        <h4>StyleGAN2 with adaptive discriminator augmentation</h4>
+        </br>
+        </br>
+        </br> StyleGAN2 is trained on more than 2000 photos of buildings scraped from flickr. The Fréchet inception distance metric after roughly three weeks of training on one GPU was around 15.</br>
+        </br>
+        Some inspirations of generated mosque images which have some Amsterdam style are shown below.</br>
+        </br>
+        <img src="images/mixgan.png" alt="pipe" margin=0 class='center' /></br>
+        </br>
+        Some examples of generated images:</br>
+        </br>
+        <img src="images/gan18.png" alt="pipe" margin=0 width=100%/></br>
 
-        <p>
-            StyleGAN is a network architecture leading to higher resolution and more diverse output while also increasing control over generated images. One of the main incredients to achieve the latter is instead of just feeding random noise into the generator network,
-            an intermediate vector is produced from several fully connected layers. This architecture improves the disentanglement of input and output features. The ideal would be to fully control e.g. building shape or wall colour by tuning this vector.</br>
-            The image below shows how StyleGAN's input goes through mapping layers before getting fed into the generator. The generator is then classfied by the discriminator together with real images.
-            </br>
-            </br>
-            <img src="images/stylegan.png" alt="stylegan" margin=0 class='center2' /></br>
-            </br>
-            </br>
-            In the orginal StyleGAN progressive growing (a slow increase of image size optimised by convolutions) led to more success in high resolution output. StyleGAN2 manages to replicate the same effects by adding skip and residual connections to the generator
-            and discriminator respectively. </br>
-            The other important ingredient of StyleGAN, Adaptive Instance Normalisation, is modified in StyleGAN2 as well. Instance normalisation (e.g. of the B-channel of one image) can lead to droplet artefact. Hereby a feature map with a small spike-type distribution
-            influences the output tremendously after normalisation. Demodulation solves that problem. The normalisation is implemented into the convolutional weights.
-            </br>
-            </br>
-            <img src="images/demo.png" alt="demodulation" margin=0 class='center' /></br>
-
-            </br>
-            </br>
-            </br> StyleGAN2 is trained on more than 2000 photos of buildings scraped from flickr. The Fréchet inception distance metric after roughly two weeks of training on one GPU was around 16.</br>
-            Some examples of generated images:</br>
-            </br>
-            <img src="images/gan18.png" alt="pipe" margin=0 width=100%/></br>
-            </br>
-            Some inspirations of generated mosque images which have some Amsterdam style are shown below.</br>
-            </br>
-            <img src="images/mixgan.png" alt="pipe" margin=0 class='center' /></br>
-            </br>
 
         </p>
-        <h4>Projections</h4>
-        <p></p>
+
     </div>
 </body>
 
