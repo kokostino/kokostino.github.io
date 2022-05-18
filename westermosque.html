@@ -70,11 +70,11 @@
         <p>
             A more sophisticated way to mix style is via a Generative Adversarial Network. Since GANs do not have a properly controllable latent space to explore between two images, StyleGAN is our best bet.
             StyleGAN has some improvements over the basic GAN architecture, with the most relevant for our use-case being the fact that the generator gets the latent vector as an input not once but several times.
-            Each input controls some level of granularity. The nice consequence: feeding two different latent vectors to higher and lower granularity layers mixs the styles.
+            Each input controls some level of granularity of the generated image's structure. The useful consequence: feeding two different latent vectors to higher and lower granularity layers mixes the styles.
 
             <h4>StyleGAN2-ada</h4>
             This project uses StyleGAN2 with adaptive discriminator augmentation. This is a fruitful augmentation technique, which allows the same success with only 10% of the original data.
-The data used were scraped via the flickr-API under several search words, such as 'house', 'castle', 'palace', 'church' and 'mosque'.
+The images used as training input were scraped via the flickr-API under several key words, such as 'house', 'castle', 'palace', 'church' and 'mosque'.
 </br>
 Some examples of generated images with a Fréchet inception distance of roughly 15 trained on 2000+ images:</br>
 </br>
@@ -89,7 +89,7 @@ The second way: take images of mosques and Amsterdam, find their representation 
         </br>
         </br>
         
-        Independently of stle-mixing, some of the results of the produced images by itsself have some inspirational aspects in regard of building-mixing too.</br></br>
+        Independently of style-mixing, some of the results of the produced images by itsself have some inspirational aspects in regard of building-mixing as well.</br></br>
         </br>
         <img src="images/mixgan.png" alt="pipe" margin=0 class='center' /></br>
         </br>
